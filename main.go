@@ -1,17 +1,23 @@
 package main
 
 import (
-  "html/template"
-  "net/http"
+	"fmt"
+	"html/template"
+	"log"
+	"net/http"
 )
 
 func main() {
   tmpl := template.Must(template.ParseFiles("templates/index.html"))
 
   http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-    tmpl.Execute(w, nil)
+    err := tmpl.Execute(w, nil)
+
+    if err != nil {
+      fmt.Print(err)
+    }
   })
 
-  http.ListenAndServe(":8080", nil)
+  log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
