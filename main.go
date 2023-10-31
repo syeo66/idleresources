@@ -7,16 +7,17 @@ import (
 	"net/http"
 )
 
-func main() {
-  tmpl := template.Must(template.ParseFiles("templates/index.html"))
-
-  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+func index(w http.ResponseWriter, r *http.Request) {
+    tmpl := template.Must(template.ParseFiles("templates/index.html"))
     err := tmpl.Execute(w, nil)
 
     if err != nil {
       fmt.Print(err)
     }
-  })
+  }
+
+func main() {
+  http.HandleFunc("/", index)
 
   log.Fatal(http.ListenAndServe(":8080", nil))
 }
