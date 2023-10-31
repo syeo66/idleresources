@@ -1,9 +1,16 @@
 <html>
   <head>
     <title>Home</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
   </head>
 
   <body>
-    Hello, World
+    <main id="playfield">
+      <div class="source" id="water-source">
+        <div class="title">Water</div>
+        <div class="amount">0</div>
+        <button hx-post="/water">Extract</button>
+      </div>
+    </main>
   </body>
 </html>
