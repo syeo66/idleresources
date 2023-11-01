@@ -28,3 +28,7 @@ func (w *Water) SetAmount(amount int) {
 func (w *Water) IncrementAmount(amount int) {
 	w.amount += amount
 }
+
+func (w *Water) Tick(gameState *GameState) {
+	w.amount += w.delta
+}

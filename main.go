@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/syeo66/idleresources/gamestate"
 )
@@ -21,6 +22,7 @@ var templates = template.Must(template.ParseFiles(templatePaths...))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, resource any) {
 	err := templates.ExecuteTemplate(w, tmpl+".html", resource)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -31,6 +33,7 @@ func resourceHandler(w http.ResponseWriter, r *http.Request) {
 
 	resource := gameState.GetResource(resourceName)
 	resource.IncrementAmount(1)
+
 	renderTemplate(w, "resource", resource)
 }
 
@@ -39,6 +42,21 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	ticker := time.NewTicker(1 * time.Second)
+	quit := make(chan struct{})
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				gameState.Tick()
+			case <-quit:
+				ticker.Stop()
+				return
+			}
+		}
+	}()
+
 	fileServer := http.StripPrefix("/css", http.FileServer(http.Dir("./static/css")))
 	http.Handle("/css/", fileServer)
 

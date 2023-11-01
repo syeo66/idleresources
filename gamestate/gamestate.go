@@ -8,12 +8,18 @@ type Resource interface {
 
 	SetAmount(int)
 	IncrementAmount(int)
+
+	Tick(gameState *GameState)
 }
 
-type Tool struct {
-	Id   string
-	Name string
-	Cost []Resource
+type Tool interface {
+	Id() string
+	Name() string
+	Costs() []Resource
+
+	CanAfford(gameState *GameState) bool
+
+	Tick(gameState *GameState)
 }
 
 type GameState struct {
@@ -29,4 +35,24 @@ func (g *GameState) GetResource(Id string) Resource {
 	}
 
 	return nil
+}
+
+func (g *GameState) GetTool(Id string) Tool {
+	for i, tool := range g.Tools {
+		if tool.Id() == Id {
+			return g.Tools[i]
+		}
+	}
+
+	return nil
+}
+
+func (g *GameState) Tick() {
+	for _, resource := range g.Resources {
+		resource.Tick(g)
+	}
+
+	for _, tool := range g.Tools {
+		tool.Tick(g)
+	}
 }
