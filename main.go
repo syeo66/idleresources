@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -42,10 +41,8 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	if tool != nil {
 		resource := gameState.GetResource(resourceName)
 		resource.IncrementDelta(1)
-		fmt.Printf("cost: %v", tool)
 
 		for _, cost := range tool.Costs() {
-			fmt.Println(cost.Id())
 			gameState.GetResource(cost.Id()).ChangeAmount(-cost.GetAmount())
 		}
 	}
