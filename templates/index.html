@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Home</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+
+  <body>
+    <main id="playfield">
+      <div id="resources">
+        {{range .Resources}}
+         {{ template "resource" .}}
+        {{end}}
+      <div>
+    </main>
+  </body>
+</html>

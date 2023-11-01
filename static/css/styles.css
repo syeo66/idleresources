@@ -1,0 +1,11 @@
+#resources {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.resource {
+  border: 1px solid black;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
