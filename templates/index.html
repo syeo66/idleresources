@@ -8,12 +8,7 @@
 
   <body>
     <main id="playfield">
-      <div id="tools">
-        {{range .Tools}}
-          {{ template "tools" .}}
-        {{end}}
-      </div>
-
+      {{template "tools" . }}
       {{template "resources" . }}
 
       <div id="sources">

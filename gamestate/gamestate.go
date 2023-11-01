@@ -3,11 +3,15 @@ package gamestate
 type Resource interface {
 	Id() string
 	Name() string
-	Amount() int
-	Delta() int
 
+	GetAmount() int
 	SetAmount(int)
-	IncrementAmount(int)
+	IncrementAmount()
+	ChangeAmount(int)
+
+	GetDelta() int
+	SetDelta(int)
+	IncrementDelta(int)
 
 	Tick(gameState *GameState)
 }
@@ -35,6 +39,15 @@ func (g *GameState) GetResource(Id string) Resource {
 	}
 
 	return nil
+}
+
+func (g *GameState) GetResourceAmount(Id string) int {
+	resource := g.GetResource(Id)
+	if resource == nil {
+		return 0
+	}
+
+	return resource.GetAmount()
 }
 
 func (g *GameState) GetTool(Id string) Tool {

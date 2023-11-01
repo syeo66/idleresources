@@ -1,0 +1,5 @@
+{{define "tool"}}
+<div><button hx-get="/{{ .Id }}" hx-target="#tools">{{ .Name }}</button></div>
+{{end}}
+
+{{template "tool" .}}

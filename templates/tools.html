@@ -1,3 +1,9 @@
 {{define "tools"}}
-Tools
+<div id="tools" hx-get="/tools" hx-trigger="every 1s" hx-swap="outerHTML">
+  {{range .Tools}}
+    {{template "tool" .}}
+  {{end}} 
+</div>
 {{end}}
+
+{{template "tools" .}}

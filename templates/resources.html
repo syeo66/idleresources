@@ -1,9 +1,9 @@
 {{define "resources"}}
-{{range .Resources}}
 <div id="resources" hx-get="/resources" hx-trigger="every 1s" hx-swap="outerHTML">
-  {{template "resource" .}}
+  {{range .Resources}}
+    {{template "resource" .}}
+  {{end}} 
 </div>
-{{end}} 
 {{end}}
 
 {{template "resources" .}}
