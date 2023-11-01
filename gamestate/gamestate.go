@@ -17,7 +17,7 @@ type Tool interface {
 	Name() string
 	Costs() []Resource
 
-	CanAfford(gameState *GameState) bool
+	IsEnabled(gameState *GameState) bool
 
 	Tick(gameState *GameState)
 }
