@@ -10,7 +10,7 @@ import (
 
 var gameState = gamestate.GameState{
 	Resources: []gamestate.Resource{
-		{Id: "water", Name: "Water", Amount: 0, Delta: 0},
+		&gamestate.Water{},
 	},
 }
 
@@ -30,7 +30,7 @@ func resourceHandler(w http.ResponseWriter, r *http.Request) {
 	resourceName := r.URL.Path[len("/"):]
 
 	resource := gameState.GetResource(resourceName)
-	resource.Amount += 1
+	resource.IncrementAmount(1)
 	renderTemplate(w, "resource", resource)
 }
 

@@ -1,10 +1,13 @@
 package gamestate
 
-type Resource struct {
-	Id     string
-	Name   string
-	Amount int
-	Delta  int
+type Resource interface {
+	Id() string
+	Name() string
+	Amount() int
+	Delta() int
+
+	SetAmount(int)
+	IncrementAmount(int)
 }
 
 type Tool struct {
@@ -18,10 +21,10 @@ type GameState struct {
 	Resources []Resource
 }
 
-func (g *GameState) GetResource(Id string) *Resource {
+func (g *GameState) GetResource(Id string) Resource {
 	for i, resource := range g.Resources {
-		if resource.Id == Id {
-			return &g.Resources[i]
+		if resource.Id() == Id {
+			return g.Resources[i]
 		}
 	}
 
