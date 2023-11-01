@@ -16,7 +16,11 @@ var gameState = gamestate.GameState{
 }
 
 var templatePaths = []string{
-	"templates/index.html", "templates/resource.html", "templates/tools.html",
+	"templates/index.html",
+	"templates/resource.html",
+	"templates/resources.html",
+	"templates/source.html",
+	"templates/tools.html",
 }
 var templates = template.Must(template.ParseFiles(templatePaths...))
 
@@ -34,7 +38,11 @@ func resourceHandler(w http.ResponseWriter, r *http.Request) {
 	resource := gameState.GetResource(resourceName)
 	resource.IncrementAmount(1)
 
-	renderTemplate(w, "resource", resource)
+	renderTemplate(w, "resources", gameState)
+}
+
+func resourcesView(w http.ResponseWriter, r *http.Request) {
+	renderTemplate(w, "resources", gameState)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -61,7 +69,10 @@ func main() {
 	http.Handle("/css/", fileServer)
 
 	http.HandleFunc("/", index)
+
 	http.HandleFunc("/water", resourceHandler)
+
+	http.HandleFunc("/resources", resourcesView)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

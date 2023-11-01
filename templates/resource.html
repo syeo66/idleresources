@@ -1,9 +1,5 @@
-{{ define "resource" }}
-<div class="resource" id="{{ .Id }}-resource">
-  <div class="title">{{ .Name }}</div>
-  <div class="amount">{{ .Amount }}</div>
-  <button hx-post="/{{ .Id }}" hx-target="#{{ .Id }}-resource" hx-swap="outerHTML">Extract</button>
-</div>
-{{ end }}
+{{define "resource"}}
+<div>{{ .Name }}: {{ .Amount }}</div>
+{{end}}
 
 {{template "resource" .}}

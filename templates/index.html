@@ -2,6 +2,7 @@
   <head>
     <title>Home</title>
     <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
     <link rel="stylesheet" href="/css/styles.css">
   </head>
 
@@ -13,9 +14,11 @@
         {{end}}
       </div>
 
-      <div id="resources">
+      {{template "resources" . }}
+
+      <div id="sources">
         {{range .Resources}}
-         {{ template "resource" .}}
+          {{ template "source" .}}
         {{end}}
       <div>
     </main>
