@@ -1,7 +1,26 @@
+body {
+  margin: 0;
+  padding: 2rem;
+}
+
+#playfield {
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  grid-template-areas: "main tools";
+  gap: 1rem;
+}
+
+#tools {
+  min-height: 2em;
+  margin-bottom: 1rem;
+  grid-area: tools;
+}
+
 #resources {
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: flex-start;
+  grid-area: main;
 }
 
 .resource {

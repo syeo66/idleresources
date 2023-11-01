@@ -4,36 +4,20 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/syeo66/idleresources/gamestate"
 )
 
-type Resource struct {
-	Id     string
-	Name   string
-	Amount int
-	Delta  int
-}
-
-type GameState struct {
-	Resources []Resource
-}
-
-var gameState = GameState{
-	Resources: []Resource{
+var gameState = gamestate.GameState{
+	Resources: []gamestate.Resource{
 		{Id: "water", Name: "Water", Amount: 0, Delta: 0},
 	},
 }
 
-func (g *GameState) GetResource(Id string) *Resource {
-	for i, resource := range g.Resources {
-		if resource.Id == Id {
-			return &g.Resources[i]
-		}
-	}
-
-	return nil
+var templatePaths = []string{
+	"templates/index.html", "templates/resource.html", "templates/tools.html",
 }
-
-var templates = template.Must(template.ParseFiles("templates/index.html", "templates/resource.html"))
+var templates = template.Must(template.ParseFiles(templatePaths...))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, resource any) {
 	err := templates.ExecuteTemplate(w, tmpl+".html", resource)
@@ -42,8 +26,10 @@ func renderTemplate(w http.ResponseWriter, tmpl string, resource any) {
 	}
 }
 
-func water(w http.ResponseWriter, r *http.Request) {
-	resource := gameState.GetResource("water")
+func resourceHandler(w http.ResponseWriter, r *http.Request) {
+	resourceName := r.URL.Path[len("/"):]
+
+	resource := gameState.GetResource(resourceName)
 	resource.Amount += 1
 	renderTemplate(w, "resource", resource)
 }
@@ -57,7 +43,7 @@ func main() {
 	http.Handle("/css/", fileServer)
 
 	http.HandleFunc("/", index)
-	http.HandleFunc("/water", water)
+	http.HandleFunc("/water", resourceHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
