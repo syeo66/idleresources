@@ -1,6 +1,7 @@
 {{ define "source" }}
 <div class="source" id="{{ .Id }}-source">
   <div class="title">{{ .Name }}</div>
+  <div class="rate">{{ .Delta }}/s</div>
   <button hx-post="/{{ .Id }}" hx-target="#resources" hx-swap="outerHTML">Extract</button>
 </div>
 {{ end }}

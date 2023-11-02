@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"html/template"
 	"log"
 	"net/http"
@@ -8,6 +9,8 @@ import (
 
 	"github.com/syeo66/idleresources/gamestate"
 )
+
+var addr = flag.String("addr", ":8080", "http service address")
 
 var gameState = gamestate.GameState{
 	Resources: []gamestate.Resource{
@@ -72,6 +75,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	flag.Parse()
+	hub := newHub()
+	go hub.run()
 	ticker := time.NewTicker(1 * time.Second)
 	quit := make(chan struct{})
 
@@ -92,6 +98,10 @@ func main() {
 
 	http.HandleFunc("/", index)
 
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		serveWs(hub, w, r)
+	})
+
 	http.HandleFunc("/water", resourceHandler)
 
 	http.HandleFunc("/search-water", searchHandler)
@@ -99,5 +109,10 @@ func main() {
 	http.HandleFunc("/resources", resourcesView)
 	http.HandleFunc("/tools", toolsView)
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	server := &http.Server{
+		Addr:              *addr,
+		ReadHeaderTimeout: 3 * time.Second,
+	}
+
+	log.Fatal(server.ListenAndServe())
 }
