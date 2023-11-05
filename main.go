@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/syeo66/idleresources/gamestate"
@@ -25,9 +26,16 @@ func websocketHandler(c echo.Context) error {
 		defer ws.Close()
 		for {
 			// Write
-			err := websocket.Message.Send(ws, "Hello, Client!")
+			json, err := json.Marshal(gameState)
 			if err != nil {
 				c.Logger().Error(err)
+				return
+			}
+
+			err = websocket.Message.Send(ws, string(json))
+			if err != nil {
+				c.Logger().Error(err)
+				return
 			}
 
 			// Read
@@ -35,6 +43,7 @@ func websocketHandler(c echo.Context) error {
 			err = websocket.Message.Receive(ws, &msg)
 			if err != nil {
 				c.Logger().Error(err)
+				return
 			}
 			fmt.Printf("%s\n", msg)
 		}

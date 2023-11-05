@@ -1,10 +1,10 @@
 package gamestate
 
 type Water struct {
-	amount      int
+	Amount      int
 	Delta       int
-	total       int
-	isAutomated bool
+	Total       int
+	IsAutomated bool
 }
 
 func (w *Water) Id() string {
@@ -28,42 +28,42 @@ func (w *Water) IncrementDelta(delta int) {
 }
 
 func (w *Water) GetAmount() int {
-	return w.amount
+	return w.Amount
 }
 
 func (w *Water) SetAmount(amount int) {
-	w.amount = amount
-	w.total += amount
+	w.Amount = amount
+	w.Total += amount
 }
 
 func (w *Water) IncrementAmount() {
-	w.amount += w.Delta
-	w.total += w.Delta
+	w.Amount += w.Delta
+	w.Total += w.Delta
 }
 
 func (w *Water) ChangeAmount(amount int) {
-	w.amount += amount
+	w.Amount += amount
 
 	if amount > 0 {
-		w.total += amount
+		w.Total += amount
 	}
 }
 
 func (w *Water) SetAutomated(automated bool) {
-	w.isAutomated = automated
+	w.IsAutomated = automated
 }
 
-func (w *Water) IsAutomated() bool {
-	return w.isAutomated
+func (w *Water) GetIsAutomated() bool {
+	return w.IsAutomated
 }
 
 func (w *Water) Tick(gameState *GameState) {
-	if w.isAutomated {
-		w.amount += w.Delta
-		w.total += w.Delta
+	if w.IsAutomated {
+		w.Amount += w.Delta
+		w.Total += w.Delta
 	}
 
-	if w.amount > 0 {
+	if w.Amount > 0 {
 		tool := gameState.GetTool("search-water")
 		if tool == nil {
 			gameState.Tools = append(gameState.Tools, &SearchWater{})
