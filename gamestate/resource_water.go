@@ -1,47 +1,60 @@
 package gamestate
 
-type Water struct {
-	Amount      int
-	Delta       int
-	Total       int
-	IsAutomated bool
+type water struct {
+	Id          string `json:"id,default=water"`
+	Name        string `json:"name,default=Water"`
+	Amount      int    `json:"amount"`
+	Delta       int    `json:"delta"`
+	Total       int    `json:"total"`
+	IsAutomated bool   `json:"is_automated"`
 }
 
-func (w *Water) Id() string {
-	return "water"
+func NewWater() Resource {
+	return water{
+		Id:          "water",
+		Name:        "Water",
+		Amount:      0,
+		Delta:       1,
+		Total:       0,
+		IsAutomated: false,
+	}
 }
 
-func (w *Water) Name() string {
-	return "Water"
+func (w water) GetId() string {
+	return w.Id
 }
 
-func (w *Water) GetDelta() int {
+func (w water) GetName() string {
+	return w.Name
+}
+
+func (w water) GetDelta() int {
 	return w.Delta
 }
 
-func (w *Water) SetDelta(delta int) {
+func (w water) SetDelta(delta int) {
 	w.Delta = delta
 }
 
-func (w *Water) IncrementDelta(delta int) {
+func (w water) IncrementDelta(delta int) {
 	w.Delta += delta
 }
 
-func (w *Water) GetAmount() int {
+func (w water) GetAmount() int {
 	return w.Amount
 }
 
-func (w *Water) SetAmount(amount int) {
+func (w water) SetAmount(amount int) {
 	w.Amount = amount
 	w.Total += amount
 }
 
-func (w *Water) IncrementAmount() {
+func (w water) IncrementAmount() {
 	w.Amount += w.Delta
 	w.Total += w.Delta
 }
 
-func (w *Water) ChangeAmount(amount int) {
+func (w water) ChangeAmount(amount int) {
 	w.Amount += amount
 
 	if amount > 0 {
@@ -49,15 +62,15 @@ func (w *Water) ChangeAmount(amount int) {
 	}
 }
 
-func (w *Water) SetAutomated(automated bool) {
+func (w water) SetAutomated(automated bool) {
 	w.IsAutomated = automated
 }
 
-func (w *Water) GetIsAutomated() bool {
+func (w water) GetIsAutomated() bool {
 	return w.IsAutomated
 }
 
-func (w *Water) Tick(gameState *GameState) {
+func (w water) Tick(gameState *GameState) {
 	if w.IsAutomated {
 		w.Amount += w.Delta
 		w.Total += w.Delta

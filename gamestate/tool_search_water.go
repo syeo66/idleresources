@@ -13,7 +13,7 @@ func (s *SearchWater) Name() string {
 
 func (s *SearchWater) Costs() []Resource {
 	return []Resource{
-		&Water{Amount: 1},
+		NewWater(),
 	}
 }
 

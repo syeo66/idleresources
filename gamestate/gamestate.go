@@ -1,8 +1,8 @@
 package gamestate
 
 type Resource interface {
-	Id() string
-	Name() string
+	GetId() string
+	GetName() string
 
 	GetAmount() int
 	SetAmount(int)
@@ -27,13 +27,13 @@ type Tool interface {
 }
 
 type GameState struct {
-	Tools     []Tool
-	Resources []Resource
+	Tools     []Tool     `json:"tools"`
+	Resources []Resource `json:"resources"`
 }
 
 func (g *GameState) GetResource(Id string) Resource {
 	for i, resource := range g.Resources {
-		if resource.Id() == Id {
+		if resource.GetId() == Id {
 			return g.Resources[i]
 		}
 	}
