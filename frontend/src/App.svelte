@@ -1,16 +1,10 @@
 <script lang="ts">
-  const socket = new WebSocket("ws://localhost:8080/ws");
-  socket.addEventListener("open", () => {
-    console.log("Opened");
-  });
-
-  socket.addEventListener("message", (event) => {
-    console.log("Message from server", event.data);
-  });
+  import gamestate from "./store/gamestate";
 </script>
 
 <main>
   <h1>Game</h1>
+  <pre>{JSON.stringify($gamestate, null, 2)}</pre>
 </main>
 
 <style>
