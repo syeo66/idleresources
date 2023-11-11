@@ -1,10 +1,12 @@
 <script lang="ts">
-  import gamestate from "./store/gamestate";
+  import Resources from "./components/Resources.svelte";
+  import StateDebugger from "./components/StateDebugger.svelte";
 </script>
 
 <main>
   <h1>Game</h1>
-  <pre>{JSON.stringify($gamestate, null, 2)}</pre>
+  <Resources />
+  <StateDebugger />
 </main>
 
 <style>
