@@ -60,6 +60,19 @@ func (g *GameState) GetTool(Id string) Tool {
 	return nil
 }
 
+func (g *GameState) HandleCommand(cmd map[string]interface{}) {
+	cmdType := cmd["type"].(string)
+
+	switch cmdType {
+	case "collect":
+		resource := g.GetResource(cmd["payload"].(string))
+		if resource == nil {
+			return
+		}
+		resource.IncrementAmount()
+	}
+}
+
 func (g *GameState) Tick() {
 	for _, resource := range g.Resources {
 		resource.Tick(g)

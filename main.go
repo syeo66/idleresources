@@ -26,13 +26,13 @@ func websocketHandler(c echo.Context) error {
 		defer ws.Close()
 		for {
 			// Write
-			json, err := json.Marshal(gameState)
+			jsonData, err := json.Marshal(gameState)
 			if err != nil {
 				c.Logger().Error(err)
 				return
 			}
 
-			err = websocket.Message.Send(ws, string(json))
+			err = websocket.Message.Send(ws, string(jsonData))
 			if err != nil {
 				c.Logger().Error(err)
 				return
@@ -45,7 +45,15 @@ func websocketHandler(c echo.Context) error {
 				c.Logger().Error(err)
 				return
 			}
-			fmt.Printf("%s\n", msg)
+
+			var cmd map[string]interface{}
+			err = json.Unmarshal([]byte(msg), &cmd)
+			if err != nil {
+				c.Logger().Error(err)
+				return
+			}
+			fmt.Printf("%v\n", cmd)
+			gameState.HandleCommand(cmd)
 		}
 	}).ServeHTTP(c.Response(), c.Request())
 	return nil

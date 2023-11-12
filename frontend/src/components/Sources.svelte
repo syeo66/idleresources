@@ -1,5 +1,11 @@
 <script lang="ts">
   import gamestate from "../store/gamestate";
+  import { send } from "../websocket";
+  import { type Resource } from "../types";
+
+  const handleCollect = (resource: Resource) => {
+    send({ type: "collect", payload: resource.id });
+  };
 </script>
 
 <div class="sources">
@@ -7,6 +13,9 @@
     <div class="source">
       <div class="source__name">{resource.name}</div>
       <div class="source__delta">{resource.delta}</div>
+      {#if !resource.is_automated}
+        <button on:click={() => handleCollect(resource)}>collect</button>
+      {/if}
     </div>
   {/each}
 </div>
@@ -21,6 +30,7 @@
   }
 
   .source {
+    font-size: 0.8rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,11 +41,11 @@
     border-radius: 10px;
   }
 
-  .source__name {
-    font-size: 1rem;
+  .source button {
+    padding: 0.2rem 0.4rem;
   }
 
   .source__delta {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 </style>

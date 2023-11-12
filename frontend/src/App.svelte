@@ -16,7 +16,8 @@
 <style>
   main {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    width: 100%;
+    grid-template-columns: 3fr 1fr 1fr;
     grid-gap: 1rem;
     grid-template-areas: "header header header" "sources resources tools" "debugger resources tools";
   }

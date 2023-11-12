@@ -1,26 +1,14 @@
 import { readable } from 'svelte/store'
-import { z } from 'zod';
+import { connect } from '../websocket'
+import { gameStateSchema, type GameState } from '../types';
 
-const resourceSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  amount: z.number(),
-  delta: z.number(),
-  total: z.number(),
-  is_automated: z.boolean(),
-})
 
-const gameStateSchema = z.object({
-  resources: z.array(resourceSchema)
-})
-type GameState = z.infer<typeof gameStateSchema>
-
-const initialGameState: GameState = {
+export const initialGameState: GameState = {
   resources: []
 }
 
 const gamestate = readable<GameState>(initialGameState, function start(set) {
-  const socket = new WebSocket("ws://localhost:8080/ws");
+  const socket = connect();
 
   socket.addEventListener("open", () => {
     console.log("Opened");
