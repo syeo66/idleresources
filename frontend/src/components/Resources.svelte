@@ -13,28 +13,14 @@
 
 <style>
   .resources {
+    grid-area: resources;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
+    flex-direction: column;
   }
 
   .resource {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 75px;
-    height: 75px;
-    border: 1px solid white;
-    border-radius: 10px;
-  }
-
-  .resource__name {
-    font-size: 1rem;
-  }
-
-  .resource__amount {
-    font-size: 1.3rem;
+    gap: 1rem;
+    flex-direction: row;
   }
 </style>
