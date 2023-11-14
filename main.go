@@ -24,23 +24,29 @@ var gameState = gamestate.GameState{
 func websocketHandler(c echo.Context) error {
 	websocket.Handler(func(ws *websocket.Conn) {
 		defer ws.Close()
+
+		go func() {
+			for gs := range gameState.C {
+				jsonData, err := json.Marshal(gs)
+				if err != nil {
+					c.Logger().Error(err)
+					return
+				}
+
+				err = websocket.Message.Send(ws, string(jsonData))
+				if err != nil {
+					c.Logger().Error(err)
+					return
+				}
+			}
+		}()
+
+		gameState.Init()
+
 		for {
-			// Write
-			jsonData, err := json.Marshal(gameState)
-			if err != nil {
-				c.Logger().Error(err)
-				return
-			}
-
-			err = websocket.Message.Send(ws, string(jsonData))
-			if err != nil {
-				c.Logger().Error(err)
-				return
-			}
-
 			// Read
 			msg := ""
-			err = websocket.Message.Receive(ws, &msg)
+			err := websocket.Message.Receive(ws, &msg)
 			if err != nil {
 				c.Logger().Error(err)
 				return

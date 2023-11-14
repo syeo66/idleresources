@@ -27,8 +27,9 @@ type Tool interface {
 }
 
 type GameState struct {
-	Tools     []Tool     `json:"tools"`
-	Resources []Resource `json:"resources"`
+	Tools     []Tool         `json:"tools"`
+	Resources []Resource     `json:"resources"`
+	C         chan GameState `json:"-"`
 }
 
 func (g *GameState) GetResource(Id string) Resource {
@@ -70,6 +71,7 @@ func (g *GameState) HandleCommand(cmd map[string]interface{}) {
 			return
 		}
 		resource.IncrementAmount()
+		g.C <- *g
 	}
 }
 
@@ -81,4 +83,9 @@ func (g *GameState) Tick() {
 	for _, tool := range g.Tools {
 		tool.Tick(g)
 	}
+}
+
+func (g *GameState) Init() {
+	g.C = make(chan GameState)
+	g.C <- *g
 }
