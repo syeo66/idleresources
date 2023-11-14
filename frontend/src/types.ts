@@ -13,7 +13,25 @@ export const resourceSchema = z.object({
 })
 export type Resource = z.infer<typeof resourceSchema>
 
+export const toolIdSchema = z.enum(["search-water"])
+export type ToolId = z.infer<typeof toolIdSchema>
+
+const toolCostSchema = z.object({
+  id: resourceIdSchema,
+  name: z.string(),
+  amount: z.number(),
+})
+
+export const toolSchema = z.object({
+  id: toolIdSchema,
+  name: z.string(),
+  costs: z.array(toolCostSchema),
+  is_enabled: z.boolean(),
+})
+export type Tool = z.infer<typeof toolSchema>
+
 export const gameStateSchema = z.object({
-  resources: z.array(resourceSchema)
+  resources: z.array(resourceSchema),
+  tools: z.array(toolSchema)
 })
 export type GameState = z.infer<typeof gameStateSchema>

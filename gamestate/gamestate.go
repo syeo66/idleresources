@@ -22,9 +22,11 @@ type Tool interface {
 	GetName() string
 	GetCosts() []Resource
 
-	IsEnabled(gameState *GameState) bool
+	GetIsEnabled(gameState *GameState) bool
 
 	Tick(gameState *GameState)
+	Act(gameState *GameState)
+	Compute(gameState *GameState)
 }
 
 type GameState struct {
@@ -72,8 +74,15 @@ func (g *GameState) HandleCommand(cmd map[string]interface{}) {
 			return
 		}
 		resource.IncrementAmount()
-		resource.Compute(g)
+		g.Compute()
 		g.C <- *g
+
+	default:
+		tool := g.GetTool(cmdType)
+		if tool == nil || !tool.GetIsEnabled(g) {
+			return
+		}
+		tool.Act(g)
 	}
 }
 
@@ -84,6 +93,16 @@ func (g *GameState) Tick() {
 
 	for _, tool := range g.Tools {
 		tool.Tick(g)
+	}
+}
+
+func (g *GameState) Compute() {
+	for _, resource := range g.Resources {
+		resource.Compute(g)
+	}
+
+	for _, tool := range g.Tools {
+		tool.Compute(g)
 	}
 }
 

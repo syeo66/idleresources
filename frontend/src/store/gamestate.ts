@@ -4,7 +4,8 @@ import { gameStateSchema, type GameState } from '../types';
 
 
 export const initialGameState: GameState = {
-  resources: []
+  resources: [],
+  tools: []
 }
 
 const gamestate = readable<GameState>(initialGameState, function start(set) {
