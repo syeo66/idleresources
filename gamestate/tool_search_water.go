@@ -1,28 +1,39 @@
 package gamestate
 
-type SearchWater struct {
+type searchWater struct {
+	Id    string     `json:"id"`
+	Name  string     `json:"name"`
+	Costs []Resource `json:"costs"`
 }
 
-func (s *SearchWater) Id() string {
-	return "search-water"
-}
-
-func (s *SearchWater) Name() string {
-	return "Search Water"
-}
-
-func (s *SearchWater) Costs() []Resource {
-	return []Resource{
-		NewWater(),
+func NewSearchWater() *searchWater {
+	return &searchWater{
+		Id:   "search-water",
+		Name: "Search Water",
+		Costs: []Resource{
+			NewWater(),
+		},
 	}
 }
 
-func (s *SearchWater) IsEnabled(gameState *GameState) bool {
+func (s *searchWater) GetId() string {
+	return s.Id
+}
+
+func (s *searchWater) GetName() string {
+	return s.Name
+}
+
+func (s *searchWater) GetCosts() []Resource {
+	return s.Costs
+}
+
+func (s *searchWater) IsEnabled(gameState *GameState) bool {
 	return gameState.GetResourceAmount("water") > 0
 }
 
-func (s *SearchWater) Tick(gameState *GameState) {
+func (s *searchWater) Tick(gameState *GameState) {
 }
 
-func (s *SearchWater) Act(gameState *GameState) {
+func (s *searchWater) Act(gameState *GameState) {
 }

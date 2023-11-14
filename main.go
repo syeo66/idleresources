@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"time"
 
 	"encoding/json"
@@ -58,7 +57,6 @@ func websocketHandler(c echo.Context) error {
 				c.Logger().Error(err)
 				return
 			}
-			fmt.Printf("%v\n", cmd)
 			gameState.HandleCommand(cmd)
 		}
 	}).ServeHTTP(c.Response(), c.Request())

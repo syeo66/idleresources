@@ -76,10 +76,14 @@ func (w *water) Tick(gameState *GameState) {
 		w.Total += w.Delta
 	}
 
+	w.Compute(gameState)
+}
+
+func (w *water) Compute(gameState *GameState) {
 	if w.Amount > 0 {
 		tool := gameState.GetTool("search-water")
 		if tool == nil {
-			gameState.Tools = append(gameState.Tools, &SearchWater{})
+			gameState.Tools = append(gameState.Tools, NewSearchWater())
 		}
 	}
 }

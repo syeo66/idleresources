@@ -14,12 +14,13 @@ type Resource interface {
 	IncrementDelta(int)
 
 	Tick(gameState *GameState)
+	Compute(gameState *GameState)
 }
 
 type Tool interface {
-	Id() string
-	Name() string
-	Costs() []Resource
+	GetId() string
+	GetName() string
+	GetCosts() []Resource
 
 	IsEnabled(gameState *GameState) bool
 
@@ -53,7 +54,7 @@ func (g *GameState) GetResourceAmount(Id string) int {
 
 func (g *GameState) GetTool(Id string) Tool {
 	for i, tool := range g.Tools {
-		if tool.Id() == Id {
+		if tool.GetId() == Id {
 			return g.Tools[i]
 		}
 	}
@@ -71,6 +72,7 @@ func (g *GameState) HandleCommand(cmd map[string]interface{}) {
 			return
 		}
 		resource.IncrementAmount()
+		resource.Compute(g)
 		g.C <- *g
 	}
 }
