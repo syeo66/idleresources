@@ -3,7 +3,7 @@ import { z } from "zod";
 let websocket: WebSocket;
 
 const messageSchema = z.object({
-  type: z.enum(["collect", "search-water"]),
+  type: z.enum(["collect", "search-water", "search-coal"]),
   payload: z.string(), 
 });
 

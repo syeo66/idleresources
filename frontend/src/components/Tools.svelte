@@ -22,5 +22,8 @@
   div {
     grid-area: tools;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 </style>

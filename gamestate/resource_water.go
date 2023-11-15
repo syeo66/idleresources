@@ -87,4 +87,12 @@ func (w *water) Compute(gameState *GameState) {
 			gameState.Tools = append(gameState.Tools, searchWater)
 		}
 	}
+
+	if w.Amount > 3 {
+		tool := gameState.GetTool("search-coal")
+		if tool == nil {
+			searchCoal := NewSearchCoal()
+			gameState.Tools = append(gameState.Tools, searchCoal)
+		}
+	}
 }
