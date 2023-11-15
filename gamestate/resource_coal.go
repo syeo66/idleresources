@@ -14,7 +14,7 @@ func NewCoal() Resource {
 		Id:          "coal",
 		Name:        "Coal",
 		Amount:      0,
-		Delta:       1,
+		Delta:       0,
 		Total:       0,
 		IsAutomated: false,
 	}
