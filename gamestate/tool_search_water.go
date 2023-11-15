@@ -16,6 +16,8 @@ func NewSearchWater() *searchWater {
 		},
 	}
 
+	tool.Costs[0].SetAmount(1)
+
 	return tool
 }
 
@@ -41,12 +43,27 @@ func (s *searchWater) Tick(gameState *GameState) {
 func (s *searchWater) Act(gameState *GameState) {
 	water := gameState.GetResource("water")
 	water.IncrementDelta(1)
-	water.ChangeAmount(-1)
+
+	for _, cost := range s.Costs {
+		delta := cost.GetAmount()
+		resource := gameState.GetResource(cost.GetId())
+		resource.ChangeAmount(-delta)
+		cost.ChangeAmount(resource.GetDelta() / 2)
+	}
+
 	gameState.Compute()
 
 	gameState.C <- *gameState
 }
 
 func (s *searchWater) Compute(gameState *GameState) {
-	s.IsEnabled = gameState.GetResourceAmount("water") > 0
+	s.IsEnabled = true
+
+	for _, cost := range s.Costs {
+		available := gameState.GetResourceAmount(cost.GetId())
+		if available < cost.GetAmount() {
+			s.IsEnabled = false
+			break
+		}
+	}
 }
