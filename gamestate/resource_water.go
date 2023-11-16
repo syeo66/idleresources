@@ -95,4 +95,12 @@ func (w *water) Compute(gameState *GameState) {
 			gameState.Tools = append(gameState.Tools, searchCoal)
 		}
 	}
+
+	if w.Amount > 6 {
+		tool := gameState.GetTool("search-iron_ore")
+		if tool == nil {
+			searchIronOre := NewSearchIronOre()
+			gameState.Tools = append(gameState.Tools, searchIronOre)
+		}
+	}
 }
