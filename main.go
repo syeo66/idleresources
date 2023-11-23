@@ -14,7 +14,7 @@ import (
 var addr = flag.String("addr", ":8080", "http service address")
 
 var gameState = gamestate.GameState{
-	Resources: []gamestate.Resource{
+	Resources: []gamestate.ResourceInterface{
 		gamestate.NewResource("water"),
 		// gamestate.NewWater(),
 	},

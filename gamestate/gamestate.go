@@ -1,6 +1,6 @@
 package gamestate
 
-type Resource interface {
+type ResourceInterface interface {
 	GetId() string
 	GetName() string
 
@@ -30,12 +30,12 @@ type Tool interface {
 }
 
 type GameState struct {
-	Tools     []Tool         `json:"tools"`
-	Resources []Resource     `json:"resources"`
-	C         chan GameState `json:"-"`
+	Tools     []Tool              `json:"tools"`
+	Resources []ResourceInterface `json:"resources"`
+	C         chan GameState      `json:"-"`
 }
 
-func (g *GameState) GetResource(Id string) Resource {
+func (g *GameState) GetResource(Id string) ResourceInterface {
 	for i, resource := range g.Resources {
 		if resource.GetId() == Id {
 			return g.Resources[i]

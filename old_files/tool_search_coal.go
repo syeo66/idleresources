@@ -1,17 +1,17 @@
 package gamestate
 
 type searchCoal struct {
-	Id        string     `json:"id"`
-	Name      string     `json:"name"`
-	Costs     []Resource `json:"costs"`
-	IsEnabled bool       `json:"is_enabled"`
+	Id        string              `json:"id"`
+	Name      string              `json:"name"`
+	Costs     []ResourceInterface `json:"costs"`
+	IsEnabled bool                `json:"is_enabled"`
 }
 
 func NewSearchCoal() *searchCoal {
 	tool := &searchCoal{
 		Id:   "search-coal",
 		Name: "Search Coal",
-		Costs: []Resource{
+		Costs: []ResourceInterface{
 			NewWater(),
 		},
 	}
@@ -29,7 +29,7 @@ func (s *searchCoal) GetName() string {
 	return s.Name
 }
 
-func (s *searchCoal) GetCosts() []Resource {
+func (s *searchCoal) GetCosts() []ResourceInterface {
 	return s.Costs
 }
 

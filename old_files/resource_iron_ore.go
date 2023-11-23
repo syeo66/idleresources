@@ -9,7 +9,7 @@ type ironOre struct {
 	IsAutomated bool   `json:"is_automated"`
 }
 
-func NewIronOre() Resource {
+func NewIronOre() ResourceInterface {
 	return &ironOre{
 		Id:          "iron_ore",
 		Name:        "Iron Ore",

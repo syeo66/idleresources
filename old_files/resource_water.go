@@ -9,7 +9,7 @@ type water struct {
 	IsAutomated bool   `json:"is_automated"`
 }
 
-func NewWater() Resource {
+func NewWater() ResourceInterface {
 	return &water{
 		Id:          "water",
 		Name:        "Water",

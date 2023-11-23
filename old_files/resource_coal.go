@@ -1,6 +1,6 @@
 package gamestate
 
-type stone struct {
+type coal struct {
 	Id          string `json:"id"`
 	Name        string `json:"name"`
 	Amount      int    `json:"amount"`
@@ -9,10 +9,10 @@ type stone struct {
 	IsAutomated bool   `json:"is_automated"`
 }
 
-func NewStone() Resource {
-	return &stone{
-		Id:          "stone",
-		Name:        "Stone",
+func NewCoal() ResourceInterface {
+	return &coal{
+		Id:          "coal",
+		Name:        "Coal",
 		Amount:      0,
 		Delta:       0,
 		Total:       0,
@@ -20,41 +20,41 @@ func NewStone() Resource {
 	}
 }
 
-func (w *stone) GetId() string {
+func (w *coal) GetId() string {
 	return w.Id
 }
 
-func (w *stone) GetName() string {
+func (w *coal) GetName() string {
 	return w.Name
 }
 
-func (w *stone) GetDelta() int {
+func (w *coal) GetDelta() int {
 	return w.Delta
 }
 
-func (w *stone) SetDelta(delta int) {
+func (w *coal) SetDelta(delta int) {
 	w.Delta = delta
 }
 
-func (w *stone) IncrementDelta(delta int) {
+func (w *coal) IncrementDelta(delta int) {
 	w.Delta += delta
 }
 
-func (w *stone) GetAmount() int {
+func (w *coal) GetAmount() int {
 	return w.Amount
 }
 
-func (w *stone) SetAmount(amount int) {
+func (w *coal) SetAmount(amount int) {
 	w.Amount = amount
 	w.Total += amount
 }
 
-func (w *stone) IncrementAmount() {
+func (w *coal) IncrementAmount() {
 	w.Amount += w.Delta
 	w.Total += w.Delta
 }
 
-func (w *stone) ChangeAmount(amount int) {
+func (w *coal) ChangeAmount(amount int) {
 	w.Amount += amount
 
 	if amount > 0 {
@@ -62,15 +62,15 @@ func (w *stone) ChangeAmount(amount int) {
 	}
 }
 
-func (w *stone) SetAutomated(automated bool) {
+func (w *coal) SetAutomated(automated bool) {
 	w.IsAutomated = automated
 }
 
-func (w *stone) GetIsAutomated() bool {
+func (w *coal) GetIsAutomated() bool {
 	return w.IsAutomated
 }
 
-func (w *stone) Tick(gameState *GameState) {
+func (w *coal) Tick(gameState *GameState) {
 	if w.IsAutomated {
 		w.Amount += w.Delta
 		w.Total += w.Delta
@@ -79,5 +79,5 @@ func (w *stone) Tick(gameState *GameState) {
 	gameState.Compute()
 }
 
-func (w *stone) Compute(gameState *GameState) {
+func (w *coal) Compute(gameState *GameState) {
 }

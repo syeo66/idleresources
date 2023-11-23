@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-type resource struct {
+type Resource struct {
 	Id          string           `json:"id"`
 	Name        string           `json:"name"`
 	Amount      int              `json:"amount"`
@@ -17,7 +17,7 @@ type resource struct {
 	EnableTools map[int][]string `json:"enable_tools"`
 }
 
-func NewResource(id string) *resource {
+func NewResource(id string) *Resource {
 	path := "gamestate/resources/" + id + ".json"
 	jsonFile, err := os.Open(path)
 
@@ -28,7 +28,7 @@ func NewResource(id string) *resource {
 
 	defer jsonFile.Close()
 
-	var newResource resource
+	var newResource Resource = Resource{}
 	byteValue, _ := io.ReadAll(jsonFile)
 	err = json.Unmarshal(byteValue, &newResource)
 
@@ -39,41 +39,41 @@ func NewResource(id string) *resource {
 	return &newResource
 }
 
-func (w *resource) GetId() string {
+func (w *Resource) GetId() string {
 	return w.Id
 }
 
-func (w *resource) GetName() string {
+func (w *Resource) GetName() string {
 	return w.Name
 }
 
-func (w *resource) GetDelta() int {
+func (w *Resource) GetDelta() int {
 	return w.Delta
 }
 
-func (w *resource) SetDelta(delta int) {
+func (w *Resource) SetDelta(delta int) {
 	w.Delta = delta
 }
 
-func (w *resource) IncrementDelta(delta int) {
+func (w *Resource) IncrementDelta(delta int) {
 	w.Delta += delta
 }
 
-func (w *resource) GetAmount() int {
+func (w *Resource) GetAmount() int {
 	return w.Amount
 }
 
-func (w *resource) SetAmount(amount int) {
+func (w *Resource) SetAmount(amount int) {
 	w.Amount = amount
 	w.Total += amount
 }
 
-func (w *resource) IncrementAmount() {
+func (w *Resource) IncrementAmount() {
 	w.Amount += w.Delta
 	w.Total += w.Delta
 }
 
-func (w *resource) ChangeAmount(amount int) {
+func (w *Resource) ChangeAmount(amount int) {
 	w.Amount += amount
 
 	if amount > 0 {
@@ -81,15 +81,15 @@ func (w *resource) ChangeAmount(amount int) {
 	}
 }
 
-func (w *resource) SetAutomated(automated bool) {
+func (w *Resource) SetAutomated(automated bool) {
 	w.IsAutomated = automated
 }
 
-func (w *resource) GetIsAutomated() bool {
+func (w *Resource) GetIsAutomated() bool {
 	return w.IsAutomated
 }
 
-func (w *resource) Tick(gameState *GameState) {
+func (w *Resource) Tick(gameState *GameState) {
 	if w.IsAutomated {
 		w.Amount += w.Delta
 		w.Total += w.Delta
@@ -98,14 +98,14 @@ func (w *resource) Tick(gameState *GameState) {
 	gameState.Compute()
 }
 
-func (w *resource) Compute(gameState *GameState) {
+func (w *Resource) Compute(gameState *GameState) {
 	for amount, tools := range w.EnableTools {
 		if w.Amount > amount {
 			for _, toolId := range tools {
 				tool := gameState.GetTool(toolId)
 				if tool == nil {
-					searchWater := NewSearchWater()
-					gameState.Tools = append(gameState.Tools, searchWater)
+					newTool := NewTool(toolId)
+					gameState.Tools = append(gameState.Tools, newTool)
 				}
 			}
 		}
