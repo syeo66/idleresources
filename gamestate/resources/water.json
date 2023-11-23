@@ -1,0 +1,14 @@
+{
+  "id": "water",
+  "name": "Water",
+  "amount": 0,
+  "delta": 1,
+  "total": 0,
+  "is_automated": false,
+  "enable_tools": {
+    "0": ["search-water"],
+    "2": ["search-stone"],
+    "3": ["search-coal"],
+    "6": ["search-iron_ore"]
+  }
+}

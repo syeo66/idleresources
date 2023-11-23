@@ -2,24 +2,28 @@ package gamestate
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"os"
 )
 
 type resource struct {
-	Id          string `json:"id"`
-	Name        string `json:"name"`
-	Amount      int    `json:"amount"`
-	Delta       int    `json:"delta"`
-	Total       int    `json:"total"`
-	IsAutomated bool   `json:"is_automated"`
+	Id          string           `json:"id"`
+	Name        string           `json:"name"`
+	Amount      int              `json:"amount"`
+	Delta       int              `json:"delta"`
+	Total       int              `json:"total"`
+	IsAutomated bool             `json:"is_automated"`
+	EnableTools map[int][]string `json:"enable_tools"`
 }
 
-func NewResource(path string) (*resource, error) {
+func NewResource(id string) *resource {
+	path := "gamestate/resources/" + id + ".json"
 	jsonFile, err := os.Open(path)
 
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
+		return nil
 	}
 
 	defer jsonFile.Close()
@@ -29,10 +33,10 @@ func NewResource(path string) (*resource, error) {
 	err = json.Unmarshal(byteValue, &newResource)
 
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
 	}
 
-	return &newResource, nil
+	return &newResource
 }
 
 func (w *resource) GetId() string {
@@ -95,4 +99,15 @@ func (w *resource) Tick(gameState *GameState) {
 }
 
 func (w *resource) Compute(gameState *GameState) {
+	for amount, tools := range w.EnableTools {
+		if w.Amount > amount {
+			for _, toolId := range tools {
+				tool := gameState.GetTool(toolId)
+				if tool == nil {
+					searchWater := NewSearchWater()
+					gameState.Tools = append(gameState.Tools, searchWater)
+				}
+			}
+		}
+	}
 }
