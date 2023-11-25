@@ -1,0 +1,19 @@
+{
+  "id": "search-coal",
+  "name": "Search Coal",
+  "costs": [
+    {
+      "id": "water",
+      "amount": 3
+    }
+  ],
+  "effects": [
+    {
+      "type": "resource",
+      "id": "coal",
+      "property": "delta",
+      "amount": 1
+    }
+  ],
+  "is_enabled": true
+}

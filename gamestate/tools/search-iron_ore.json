@@ -1,0 +1,19 @@
+{
+  "id": "search-iron_ore",
+  "name": "Search Iron Ore",
+  "costs": [
+    {
+      "id": "water",
+      "amount": 4
+    }
+  ],
+  "effects": [
+    {
+      "type": "resource",
+      "id": "iron_ore",
+      "property": "delta",
+      "amount": 1
+    }
+  ],
+  "is_enabled": true
+}

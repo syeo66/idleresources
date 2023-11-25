@@ -83,12 +83,15 @@ func (s *tool) Act(gameState *GameState) {
 		}
 	}
 
+	newCosts := []Resource{}
 	for _, cost := range s.Costs {
 		delta := cost.GetAmount()
 		resource := gameState.GetResource(cost.GetId())
 		resource.ChangeAmount(-delta)
 		cost.ChangeAmount(resource.GetDelta() / 2)
+		newCosts = append(newCosts, cost)
 	}
+	s.Costs = newCosts
 
 	gameState.Compute()
 

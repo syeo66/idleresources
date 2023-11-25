@@ -1,0 +1,10 @@
+{
+  "id": "iron_ore",
+  "name": "Iron Ore",
+  "amount": 0,
+  "delta": 0,
+  "total": 0,
+  "is_automated": false,
+  "enable_tools": {
+  }
+}
