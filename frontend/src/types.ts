@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const resourceIdSchema = z.enum(["water", "stone", "coal", "iron_ore"])
+export const resourceIdSchema = z.enum(["water", "wood", "stone", "coal", "iron_ore"])
 export type ResourceId = z.infer<typeof resourceIdSchema>
 
 export const resourceSchema = z.object({
