@@ -29,10 +29,20 @@ type Tool interface {
 	Compute(gameState *GameState)
 }
 
+type Technology interface {
+	GetId() string
+	GetName() string
+	GetCosts() []Resource
+	GetEnablesTechnology() []Technology
+
+	GetIsEnabled(gameState *GameState) bool
+}
+
 type GameState struct {
-	Tools     []Tool              `json:"tools"`
-	Resources []ResourceInterface `json:"resources"`
-	C         chan GameState      `json:"-"`
+	Tools        []Tool              `json:"tools"`
+	Resources    []ResourceInterface `json:"resources"`
+	Technologies []Technology        `json:"technologies"`
+	C            chan GameState      `json:"-"`
 }
 
 func (g *GameState) GetResource(Id string) ResourceInterface {
