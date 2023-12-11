@@ -1,0 +1,13 @@
+{
+  "id": "wood_housing",
+  "name": "Wooden Housing",
+  "requires": {
+    "wood": 20
+  },
+  "enables": {
+    "tools": [
+      "build-wood_housing"
+    ],
+    "science": []
+  }
+}
